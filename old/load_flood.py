@@ -1,6 +1,9 @@
 import requests
 import pandas as pd
 
+import csv
+import re
+
 def load_txt_file():
     # URL of the file
     url = "https://myweb.cmu.ac.th/sansanee.a/NNGr/dataset/Flood_dataset.txt"
@@ -26,60 +29,26 @@ def load_txt_file():
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
 
-import csv
-import re
-
 def pat_to_csv(pat_filename, csv_filename):
     # อ่านไฟล์ .pat
     # อ่านไฟล์แบบพื้นฐาน
     with open(pat_filename, 'r') as file:
         # ข้ามบรรทัดแรกที่เป็นหัวตาราง
         header = file.readline()
-        
+        station = ['s1','s2','p']
+        header = [station[j//4]+h for j,h in enumerate(header.strip().split())]
+        print(header)
         # อ่านข้อมูลทีละบรรทัด
         data = []
-        head = None
-        i = 0
-        for line in file:
-            # แยกข้อมูลด้วยช่องว่างและแปลงเป็นตัวเลข
-            if i == 0:
-                values = [f's{(idx//4)+1}'+x for idx,x in enumerate(line.strip().split())]
-                head = values
-            else:
-                values = [float(x) for x in line.strip().split()]
-                data.append(values)
-            i+=1
-
-    # แสดงข้อมูล
-    print(head)
-    for row in data:
-        print(row)
-    # # เตรียมข้อมูลสำหรับเขียนลง CSV
-    # data = []
-    # headers = [
-    # 's1t-3',
-    # 's1t-2',
-    # 's1t-1',
-    # 's1t-0',
-    # 's2t-3',
-    # 's2t-2',
-    # 's2t-1',
-    # 's2t-0',
-    # 't+7']
-    # for match in matches:
-    #     point_num = match.group(1)
-    #     x = float(match.group(2))
-    #     y = float(match.group(3))
-    #     class_0 = int(match.group(4))
-    #     class_1 = int(match.group(5))
-        
-    #     data.append([ x, y, class_0, class_1])
+        for i,line in enumerate(file):
+            values = [float(x) for x in line.strip().split()]
+            data.append(values)
     
-    # # เขียนข้อมูลลงไฟล์ CSV
-    # with open(csv_filename, 'w', newline='') as file:
-    #     writer = csv.writer(file)
-    #     writer.writerow(headers)
-    #     writer.writerows(data)
+    # เขียนข้อมูลลงไฟล์ CSV
+    with open(csv_filename, 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(header)
+        writer.writerows(data)
 
 # ตัวอย่างการใช้งาน
 pat_filename = 'flood_dataset.txt'

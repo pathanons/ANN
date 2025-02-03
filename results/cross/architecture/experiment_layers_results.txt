@@ -1,0 +1,41 @@
+=== Network Architecture Experiment Results: Layers ===
+
+Experiment Parameters:
+------------------------------
+Learning Rate: 1.0
+Momentum: 0.5
+Epochs: 2000
+Number of Folds: 10
+
+Detailed Results:
+------------------------------
+
+Architecture 1:
+  Layer sizes: [2, 4, 2]
+  Number of hidden layers: 1
+  Final validation accuracy: 0.9500 ± 0.0500
+
+Architecture 2:
+  Layer sizes: [2, 4, 4, 2]
+  Number of hidden layers: 2
+  Final validation accuracy: 0.9050 ± 0.0687
+
+Architecture 3:
+  Layer sizes: [2, 4, 4, 4, 2]
+  Number of hidden layers: 3
+  Final validation accuracy: 0.8950 ± 0.0850
+
+Architecture 4:
+  Layer sizes: [2, 4, 4, 4, 4, 2]
+  Number of hidden layers: 4
+  Final validation accuracy: 0.4450 ± 0.0986
+
+Architecture 5:
+  Layer sizes: [2, 4, 4, 4, 4, 4, 2]
+  Number of hidden layers: 5
+  Final validation accuracy: 0.4300 ± 0.0954
+
+Summary:
+------------------------------
+Best number of layers: 1
+Best validation accuracy: 0.9500 ± 0.0500

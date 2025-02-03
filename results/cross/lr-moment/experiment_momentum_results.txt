@@ -1,0 +1,14 @@
+=== Momentum Experiment Results ===
+Fixed Learning Rate: 1.0000
+
+Momentum Values and Corresponding Validation Accuracies:
+--------------------------------------------------
+Momentum: 0.0000, Validation Accuracy: 0.9750
+Momentum: 0.1000, Validation Accuracy: 0.9750
+Momentum: 0.3000, Validation Accuracy: 0.9750
+Momentum: 0.5000, Validation Accuracy: 0.9750
+Momentum: 0.8000, Validation Accuracy: 0.9750
+Momentum: 0.9900, Validation Accuracy: 0.9750
+
+Best Momentum: 0.0000
+Best Validation Accuracy: 0.9750

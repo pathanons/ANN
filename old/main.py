@@ -1,5 +1,5 @@
 # main.py
-from model import MultilayerPerceptron, load_iris_data, load_pattern_data
+from model import MultilayerPerceptron, load_iris_data, load_pattern_data, load_flood_data
 from experiments import run_experiments
 
 def main():
@@ -7,7 +7,8 @@ def main():
     datasets = {
         'iris': ('iris.csv', load_iris_data),
         'cross': ('cross.csv', load_pattern_data),
-        'ellipse': ('ellipse.csv', load_pattern_data)
+        'ellipse': ('ellipse.csv', load_pattern_data),
+        'flood':('flood.csv',load_flood_data)
     }
     
     # Run all experiments

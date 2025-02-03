@@ -1,0 +1,41 @@
+=== Initialization Seed Experiment Results ===
+
+Experiment Parameters:
+------------------------------
+Architecture: [4, 8, 3]
+Learning Rate: 0.01
+Momentum: 0.0
+Epochs: 1000
+Number of Folds: 10
+
+Detailed Results by Seed:
+------------------------------
+
+Seed 42:
+  Validation accuracy: 0.8067 ± 0.0757
+
+Seed 123:
+  Validation accuracy: 0.7933 ± 0.1381
+
+Seed 456:
+  Validation accuracy: 0.7867 ± 0.0777
+
+Seed 789:
+  Validation accuracy: 0.7867 ± 0.2018
+
+Seed 101112:
+  Validation accuracy: 0.8200 ± 0.1267
+
+Stability Analysis:
+------------------------------
+Overall mean accuracy: 0.7987
+Overall standard deviation: 0.0129
+Best accuracy: 0.8200 ± 0.1267
+Worst accuracy: 0.7867 ± 0.0777
+Maximum accuracy difference: 0.0333
+Coefficient of variation: 1.62%
+
+Interpretation:
+------------------------------
+The model performance is reasonably stable across different initialization seeds.
+The accuracy varies by up to 3.33% points depending on the seed.
