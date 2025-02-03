@@ -2,6 +2,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 from typing import List, Tuple, Dict
 from mlp import MLP, Standardizer, one_hot_encode, create_kfolds,load_iris_data,load_pattern_data,load_flood_data
+import argparse
+
+def create_parser():
+    # สร้าง parser object
+    parser = argparse.ArgumentParser(
+        description='โปรแกรมรับข้อความจาก command line'
+    )
+    
+    # เพิ่ม argument สำหรับรับ string
+    parser.add_argument(
+        '-exp',
+        type=str,
+        required=True,
+        help='ข้อความที่ต้องการรับจาก user'
+    )
+    
+    return parser
 
 def create_architectures_varying_nodes(
     input_size: int,
@@ -208,8 +225,13 @@ def save_architecture_results(
         f.write(f'Best validation accuracy: {mean_validities[best_idx]:.4f} ± {std_validities[best_idx]:.4f}\n')
 
 
-def main(config_name):
+def main():
     # Generate sample data (replace with your actual data)
+    parser = create_parser()
+    args = parser.parse_args()
+    config_name = args.exp
+    print(config_name)
+
     np.random.seed(42)
     IRIS_CONFIG = {
         'path':'./csv/iris.csv',
@@ -240,11 +262,29 @@ def main(config_name):
 
     FLOOD_CONFIG = {
         'path':'./csv/flood.csv',
-        'lr':0.05,
-        'momentum':0.0,
-        'epoch':1000,
+        'lr':0.01,
+        'momentum':0.5,
+        'epoch':200,
         'hidden_nodes':[2,4,8,16,32],
         'n_layers':[1,2,3,4]
+    }
+
+    XOR_CONFIG = {
+        'lr':10.0,
+        'momentum':0.5,
+        'epoch':1000,
+        'hidden_nodes':[2,4,8],
+        'n_layers':[1,2,3,4]
+    }
+
+    EXP_CONFIG = {
+        'range':[1,10],
+        'step':0.05,
+        'lr':0.01,
+        'momentum':0.9,
+        'epoch':200,
+        'hidden_nodes':[2,3,4],
+        'n_layers':[1,2,3]
     }
 
     if config_name == 'iris':
@@ -258,6 +298,25 @@ def main(config_name):
     elif config_name == 'ellipse':
         config = ELLIPSE_CONFIG
         X,y = load_pattern_data(config['path'])
+    
+    elif config_name == 'exp':
+        config = EXP_CONFIG
+        X = np.arange(config['range'][0],config['range'][1]+config['step'],config['step'])
+        y = np.exp(-X)
+        X = X.reshape(len(X),1)
+        y = y.reshape(len(y),1)
+    
+    elif config_name == 'xor':
+        config = XOR_CONFIG
+        X = np.array([[0, 0],
+                  [0, 1],
+                  [1, 0],
+                  [1, 1]])
+    
+        y = np.array([[0],
+                    [1],
+                    [1],
+                    [0]])
 
     else:
         config = CROSS_CONFIG
@@ -358,4 +417,4 @@ def main(config_name):
 if __name__ == '__main__':
     # main('cross')
     # main('ellipse')
-    main('flood')
+    main()

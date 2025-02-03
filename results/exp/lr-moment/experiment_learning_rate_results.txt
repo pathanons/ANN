@@ -1,0 +1,13 @@
+=== Learning Rate Experiment Results ===
+Fixed Momentum: 0.5000
+
+Learning Rate Values and Corresponding Validation Accuracies:
+--------------------------------------------------
+Learning Rate: 0.0001, Validation Accuracy: 1.0000
+Learning Rate: 0.0010, Validation Accuracy: 1.0000
+Learning Rate: 0.0100, Validation Accuracy: 1.0000
+Learning Rate: 0.1000, Validation Accuracy: 1.0000
+Learning Rate: 1.0000, Validation Accuracy: 1.0000
+
+Best Learning Rate: 0.0001
+Best Validation Accuracy: 1.0000

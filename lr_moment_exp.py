@@ -2,6 +2,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 from typing import List, Tuple
 from mlp import MLP, Standardizer, one_hot_encode,load_iris_data,load_pattern_data,load_flood_data
+import argparse
+
+def create_parser():
+    # สร้าง parser object
+    parser = argparse.ArgumentParser(
+        description='โปรแกรมรับข้อความจาก command line'
+    )
+    
+    # เพิ่ม argument สำหรับรับ string
+    parser.add_argument(
+        '-exp',
+        type=str,
+        required=True,
+        help='ข้อความที่ต้องการรับจาก user'
+    )
+    
+    return parser
 
 def run_experiment(
     X: np.ndarray,
@@ -136,7 +153,11 @@ def plot_results(
 if __name__ == "__main__":
     # config_name = 'cross'
     # config_name = 'ellipse'
-    config_name = 'flood'
+    parser = create_parser()
+    args = parser.parse_args()
+    config_name = args.exp
+    print(config_name)
+
     IRIS_CONFIG = {
         'path':'./csv/iris.csv',
         'architecture' : [4, 8, 3],
@@ -169,13 +190,33 @@ if __name__ == "__main__":
 
     FLOOD_CONFIG = {
         'path':'./csv/flood.csv',
-        'architecture' : [8, 4, 2, 1],
+        'architecture' : [8, 4, 3, 1],
         'lr_values' : [0.0001, 0.001, 0.01, 0.1],
-        'fixed_momentum' : 0.1,
+        'fixed_momentum' : 0.5,
         'momentum_values' : [0.0, 0.5, 0.8, 0.9, 0.95, 0.99],
-        'fixed_lr' : 0.001,
-        'epoch':2000,
+        'fixed_lr' : 0.01,
+        'epoch':200,
     }
+
+    XOR_CONFIG = {
+        'architecture' : [2,5,1],
+        'lr_values' : [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0],
+        'fixed_momentum' : 0.5,
+        'momentum_values' : [0.0, 0.5, 0.8, 0.9, 0.95, 0.99],
+        'fixed_lr' : 10.0,
+        'epoch':200,
+    }
+
+    EXP_CONFIG = {
+        'range':[1,10],
+        'step':0.05,
+        'architecture' : [1,4,1],
+        'lr_values' : [0.0001, 0.001, 0.01, 0.1, 1.0],
+        'fixed_momentum' : 0.5,
+        'momentum_values' : [0.0, 0.5, 0.8, 0.9, 0.95, 0.99],
+        'fixed_lr' : 0.01,
+        'epoch':50,
+        }
 
     if config_name == 'iris':
         config = IRIS_CONFIG
@@ -189,6 +230,25 @@ if __name__ == "__main__":
         config = ELLIPSE_CONFIG
         X,y = load_pattern_data(config['path'])
 
+    elif config_name == 'exp':
+        config = EXP_CONFIG
+        X = np.arange(config['range'][0],config['range'][1]+config['step'],config['step'])
+        y = np.exp(-X)
+        X = X.reshape(len(X),1)
+        y = y.reshape(len(y),1)
+    
+    elif config_name == 'xor':
+        config = XOR_CONFIG
+        X = np.array([[0, 0],
+                  [0, 1],
+                  [1, 0],
+                  [1, 1]])
+    
+        y = np.array([[0],
+                    [1],
+                    [1],
+                    [0]])
+        
     else:
         config = CROSS_CONFIG
         X,y = load_pattern_data(config['path'])

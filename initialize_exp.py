@@ -2,6 +2,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 from typing import List, Tuple, Dict
 from mlp import MLP, Standardizer, one_hot_encode, create_kfolds,load_iris_data,load_pattern_data,load_flood_data
+import argparse
+
+def create_parser():
+    # สร้าง parser object
+    parser = argparse.ArgumentParser(
+        description='โปรแกรมรับข้อความจาก command line'
+    )
+    
+    # เพิ่ม argument สำหรับรับ string
+    parser.add_argument(
+        '-exp',
+        type=str,
+        required=True,
+        help='ข้อความที่ต้องการรับจาก user'
+    )
+    
+    return parser
 
 def run_seed_experiment(
     X: np.ndarray,
@@ -205,7 +222,11 @@ def save_seed_results(
 
 if __name__ == "__main__":
     # config_name = 'cross'
-    config_name = 'ellipse'
+    parser = create_parser()
+    args = parser.parse_args()
+    config_name = args.exp
+    print(config_name)
+
     IRIS_CONFIG = {
         'path':'./csv/iris.csv',
         'architecture' : [4, 8, 3],
@@ -239,8 +260,26 @@ if __name__ == "__main__":
         'architecture' : [8, 4, 2, 1],
         'seeds' : [42, 123, 456, 789, 101112],  # Different initialization seeds to test
         'lr' : 0.01,
-        'momentum' : 0.0,
-        'epochs' : 1000,
+        'momentum' : 0.5,
+        'epochs' : 200,
+    }
+
+    XOR_CONFIG = {
+        'lr':10.0,
+        'momentum':0.5,
+        'epochs':50,
+        'architecture' : [2, 5, 1],
+        'seeds' : [42, 123, 456, 789, 101112],  # Different initialization seeds to test
+    }
+
+    EXP_CONFIG = {
+        'range':[1,10],
+        'step':0.05,
+        'lr':0.01,
+        'momentum':0.9,
+        'epochs':200,
+        'architecture' : [1, 2, 1],
+        'seeds' : [42, 123, 456, 789, 101112],  # Different initialization seeds to test
     }
 
     if config_name == 'iris':
@@ -254,6 +293,25 @@ if __name__ == "__main__":
     elif config_name == 'ellipse':
         config = ELLIPSE_CONFIG
         X,y = load_pattern_data(config['path'])
+    
+    elif config_name == 'exp':
+        config = EXP_CONFIG
+        X = np.arange(config['range'][0],config['range'][1]+config['step'],config['step'])
+        y = np.exp(-X)
+        X = X.reshape(len(X),1)
+        y = y.reshape(len(y),1)
+    
+    elif config_name == 'xor':
+        config = XOR_CONFIG
+        X = np.array([[0, 0],
+                  [0, 1],
+                  [1, 0],
+                  [1, 1]])
+    
+        y = np.array([[0],
+                    [1],
+                    [1],
+                    [0]])
 
     else:
         config = CROSS_CONFIG
